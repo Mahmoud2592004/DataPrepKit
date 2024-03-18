@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[19]:
 
 
 import pandas as pd
@@ -11,7 +11,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import OneHotEncoder
 
 
-# In[5]:
+# In[62]:
 
 
 class Mahmoud:
@@ -522,10 +522,229 @@ class Mahmoud:
             return new_df
 
 
-# In[ ]:
+# In[22]:
 
 
+# Read Function
+df = Mahmoud.read('new_data.csv')
+print("initial data frame:")
+df
 
+
+# In[29]:
+
+
+# Average function
+avg_profit = Mahmoud.average(df, 'Profit')
+avg = Mahmoud.average(df)
+
+
+# In[35]:
+
+
+# Outliers function
+# Case 1: When a specific column is provided
+outliers_column1 = Mahmoud.find_outliers(df, 'Profit')
+print("Outliers in 'Profit' column:")
+print(outliers_column1)
+
+# Case 2: When no column is provided
+all_outliers = Mahmoud.find_outliers(df)
+print("Outliers in all numeric columns:")
+print(all_outliers)
+
+# Case 3: Handling scenarios with an empty DataFrame
+empty_df = pd.DataFrame()
+empty_outliers = Mahmoud.find_outliers(empty_df)
+print("Outliers in empty DataFrame:")
+print(empty_outliers)
+
+# Case 3: Handling scenarios where the specified column does not exist in the DataFrame
+nonexistent_column_outliers = Mahmoud.find_outliers(df, 'Nonexistent_Column')
+print("Outliers for nonexistent column:")
+print(nonexistent_column_outliers)
+
+# Case 3: Handling scenarios where the DataFrame contains non-numeric columns
+non_numeric_outliers = Mahmoud.find_outliers(df)
+print("Outliers when DataFrame contains non-numeric columns:")
+print(non_numeric_outliers)
+
+
+# In[43]:
+
+
+# most_frequent_value function
+# Case 1: When a specific column is provided
+most_freq_profit = Mahmoud.most_frequent_value(df, 'Country')
+
+# Case 2: When no column is provided
+all_most_freq = Mahmoud.most_frequent_value(df)
+
+# Case 3: Handling scenarios with an empty DataFrame
+empty_df = pd.DataFrame()
+empty_most_freq = Mahmoud.most_frequent_value(empty_df)
+
+# Case 4: Handling scenarios where the specified column does not exist in the DataFrame
+nonexistent_column_most_freq = Mahmoud.most_frequent_value(df, 'Nonexistent_Profit')
+
+# Case 5: Handling scenarios where all values in a column are unique
+unique_values_df = pd.DataFrame({'Profit': [1, 2, 3]})
+unique_most_freq = Mahmoud.most_frequent_value(unique_values_df, 'Profit')
+
+
+# In[46]:
+
+
+# standard_deviation function
+# Case 1: When a specific column is provided
+std_dev_profit = Mahmoud.standard_deviation(df, 'Profit')
+print(f"Standard deviation of 'Profit' column: {std_dev_profit}")
+
+# Case 2: When no column is provided
+all_std_dev = Mahmoud.standard_deviation(df)
+print("Standard deviation for each column:")
+print(all_std_dev)
+
+# Case 3: Handling scenarios with an empty DataFrame
+empty_df = pd.DataFrame()
+empty_std_dev = Mahmoud.standard_deviation(empty_df)
+print(f"Standard deviation in empty DataFrame: {empty_std_dev}")
+
+# Case 4: Handling scenarios where the specified column does not exist in the DataFrame
+nonexistent_column_std_dev = Mahmoud.standard_deviation(df, 'Nonexistent_Profit')
+print(f"Standard deviation for nonexistent column: {nonexistent_column_std_dev}")
+
+# Case 5: Handling scenarios where the DataFrame contains non-numeric columns
+non_numeric_df = pd.DataFrame({'Country': ['USA', 'UK', 'Canada']})
+non_numeric_std_dev = Mahmoud.standard_deviation(non_numeric_df)
+print(f"Standard deviation for non-numeric DataFrame: {non_numeric_std_dev}")
+
+
+# In[50]:
+
+
+# fill_missing_values function
+# Case 1: Filling missing values using the forward method for the entire DataFrame
+filled_df_forward = Mahmoud.fill_missing_values(df, method='forward')
+print("Filled DataFrame using forward method:")
+print(filled_df_forward)
+
+# Case 2: Filling missing values using the backward method for a specific column
+filled_column_backward = Mahmoud.fill_missing_values(df, method='backward', column='Profit')
+print("Filled 'Profit' column using backward method:")
+print(filled_column_backward)
+
+# Case 3: Filling missing values using a specified value for a specific column
+filled_column_value = Mahmoud.fill_missing_values(df, value=0, column='Profit')
+print("Filled 'Profit' column using specified value:")
+print(filled_column_value)
+
+# Case 4: Filling missing values using interpolation and forward method for the entire DataFrame
+filled_df_interpolate = Mahmoud.fill_missing_values(df, interpolate=True, method='forward')
+print("Filled DataFrame using interpolation and forward method:")
+print(filled_df_interpolate)
+
+# Case 5: Filling missing values using interpolation and specified value for the entire DataFrame
+filled_df_interpolate_value = Mahmoud.fill_missing_values(df, interpolate=True, value=0)
+print("Filled DataFrame using interpolation and specified value:")
+print(filled_df_interpolate_value)
+
+# Case 6: Filling missing values using interpolation without specifying method or value
+filled_df_interpolate_default = Mahmoud.fill_missing_values(df, interpolate=True)
+print("Filled DataFrame using interpolation and default method (ffill):")
+print(filled_df_interpolate_default)
+
+# Case 7: Handling scenarios with an empty DataFrame
+empty_df = pd.DataFrame()
+empty_filled_df = Mahmoud.fill_missing_values(empty_df, method='forward')
+print("Filled empty DataFrame:")
+print(empty_filled_df)
+
+# Case 8: Handling scenarios where the specified column does not exist in the DataFrame
+nonexistent_column_filled = Mahmoud.fill_missing_values(df, method='forward', column='Nonexistent_Column')
+print("Filled nonexistent column:")
+print(nonexistent_column_filled)
+
+# Case 9: Handling scenarios where no method or value is provided and interpolate is False
+no_method_value_filled = Mahmoud.fill_missing_values(df)
+print("Filled DataFrame without specifying method or value:")
+print(no_method_value_filled)
+
+# Case 10: Handling scenarios where no method or value is provided and interpolate is True
+no_method_value_interpolate_filled = Mahmoud.fill_missing_values(df, interpolate=True)
+print("Filled DataFrame with interpolation without specifying method or value:")
+print(no_method_value_interpolate_filled)
+
+# Case 11: Handling scenarios where both method and value are provided
+method_and_value_filled = Mahmoud.fill_missing_values(df, method='forward', value=0)
+print("Filled DataFrame with both method and value specified:")
+print(method_and_value_filled)
+
+
+# In[51]:
+
+
+# graph function
+# Case 1: Plotting specified numeric columns using line plot format
+Mahmoud.graph(df, columns=['Profit', 'Profit Margin'])
+
+# Case 2: Plotting specified numeric columns using scatter plot format with custom marker style
+Mahmoud.graph(df, columns=['Profit', 'Profit Margin'], graph_format='scatter', shape='x')
+
+# Case 3: Plotting all numeric columns against each other using line plot format
+Mahmoud.graph(df)
+
+# Case 4: Plotting all numeric columns against each other using scatter plot format
+Mahmoud.graph(df, graph_format='scatter')
+
+# Case 5: Handling scenario where only one column name is provided
+Mahmoud.graph(df, columns=['Profit'])
+
+# Case 6: Handling scenario where no columns are provided and there are not enough numeric columns to plot
+Mahmoud.graph(df.drop(columns=['Country']))
+
+# Case 7: Handling scenario where non-numeric column names are provided
+Mahmoud.graph(df, columns=['Country', 'Profit'])
+
+# Case 8: Handling scenario where an invalid graph format is provided
+Mahmoud.graph(df, columns=['Profit', 'Profit Margin'], graph_format='invalid')
+
+# Case 9: Handling scenario where an empty DataFrame is provided
+empty_df = pd.DataFrame()
+Mahmoud.graph(empty_df)
+
+# Case 10: Handling scenario where there are no numeric columns in the DataFrame
+Mahmoud.graph(df[['Country']])
+
+
+# In[65]:
+
+
+# label_encode function
+# Case 1: Encoding a categorical column and printing the mapping between original labels and encoded values
+encoded_df = Mahmoud.label_encode(df, 'Country')
+print(encoded_df)
+
+# Case 2: Encoding a categorical column that is not found in the DataFrame
+Mahmoud.label_encode(df, 'Region')
+
+# Case 3: Encoding a numeric column
+Mahmoud.label_encode(df, 'Profit')
+
+
+# In[64]:
+
+
+# Example of using the one_hot_encode function
+# Case 1: Encoding a categorical column and printing the mapping between original labels and encoded values
+encoded_df = Mahmoud.one_hot_encode(df, 'Country')
+print(encoded_df)
+
+# Case 2: Encoding a categorical column that is not found in the DataFrame
+Mahmoud.one_hot_encode(df, 'Region')
+
+# Case 3: Encoding a numeric column
+Mahmoud.one_hot_encode(df, 'Profit')
 
 
 # In[ ]:
